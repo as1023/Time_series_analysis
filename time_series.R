@@ -90,9 +90,11 @@ ggplot(data) +
 ######## for all gene 
 #dds<-fullData[,fullData$samplelabel=="dl-wt" & fullData$time %in% c(0,2,4,6,8,10,11,11.5,12,14,16,18,20,22)]
 #dds<-counts(dds,normalized=TRUE)[rownames(up),]
+
 p<-data.frame(colData(fullData),t(counts(fullData, normalized=TRUE )[rownames(up),] ) ) %>%
-  mutate ( tl = ifelse( time > 11, time - 11, 1e5 ) )  %>%
-  gather( "gene", "ncount", starts_with("NCU")) 
+mutate ( tl = ifelse( time > 11, time - 11, 1e5 ) )  %>%
+ gather( "gene", "ncount", starts_with("NCU")) 
+
 fitModel <- function(gene) {
     df <- subset(
     data.frame(
