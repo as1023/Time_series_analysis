@@ -1,4 +1,3 @@
-
 library(Cairo)
 CairoFonts(
   regular="Arial:style=Regular",
@@ -21,7 +20,7 @@ sampleTable<-data.frame(sampleName=meta$condition, fileName=meta$fileName, condi
 fullData <- DESeqDataSetFromHTSeqCount(sampleTable=sampleTable,directory = ".",design = ~ 1)
 fullData <- estimateSizeFactors(fullData)
 norm<-counts(fullData, normalized=TRUE)
-save(fullData,file="fullData.dat")
+save(fullData,file="fullData.rda")
 dds <- fullData[,fullData$samplelabel=="dl-wt" & fullData$time %in% c(4,6,8,10,11.5)]
 design(dds) <- ~ condition
 dds <- DESeq(dds)
