@@ -19,17 +19,19 @@ ggplot +geom_line(aes(x=time, y=log2(ncount+1), col=samplelabel)) + facet_wrap(~
 p+ xlab("Time[h]") + ylab("Log2(count)+1") + theme_bw()
 
 ###### plot in one gene in one png file
-
-d<-as.vector(row.names(ressig))
-for ( i in 1:length(d)){
-p<-data.frame(colData(fullData),t(counts(fullData, normalized=TRUE) [i, , drop=FALSE]) ) %>%
+for( i in row.names(ressig))
+      {
+p<-data.frame(colData(fullData),t(counts(fullData, normalized=TRUE)[i, , drop=FALSE]) )[-58,] %>%
 gather( "gene", "ncount", -(1:5) )%>%
-ggplot +geom_line(aes(x=time, y=log2(ncount+1), col=samplelabel)) + facet_wrap(~ gene[i])
-p<- p+ xlab( "Time[h]") + ylab("Log2(count)+1") 
+ggplot +geom_line(aes(x=time, y=log2(ncount+1), col=samplelabel)) + facet_wrap(~gene)
+p<- p+ xlab("Time[h]") + ylab("Log2(count)+1")
 p<-p+theme_bw()
-ggsave(paste('~/Desktop/plot/plot_',i , '.png', sep=''), p)
-print(i)
+p<-p+geom_point(aes(x=time,y=log2(ncount+1),col=samplelabel))
+p<-p+ labs(title = "i")
+ggsave(paste('~/Desktop/Light-dark/plot/',i , '.png', sep=''), p)
+#print(i)
 }
+
 
 ########test html plot 
  HTMLoutput=file.path(".","output.html")
