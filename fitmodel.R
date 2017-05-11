@@ -17,3 +17,10 @@ getCurve <- function( fit ) {
   fittedline$ncount <- predict( fit, fittedline )
   fittedline
 }
+####extract fitted value for plot 
+store<-list()
+for(i in rownames(up)){
+  print(i)
+  line<- getCurve(fitModel(i))  
+  store[[i]]<-line
+}
