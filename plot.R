@@ -5,7 +5,7 @@ library(tidyr)
 #####plot all ressignificant gene in one pdf file 
 
 pdf('light_inducibale_gene.pdf')
-p<- data.frame(colData(fullData),t(counts(fullData, normalized=TRUE)[rownames(ressig),][i]))[-58,]%>%
+p<- data.frame(colData(fullData),t(counts(fullData, normalized=TRUE)[rownames(ressig),]))[-58,]%>%
 gather( "gene", "ncount", -(1:5) ) %>%
 ggplot + geom_line(aes( x=time, y=log2(ncount+1), col=samplelabel)) +facet_wrap(~gene)
 p<- p + xlab( "Time[h]") + ylab("Log2(count)+1") + theme_bw()
