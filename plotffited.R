@@ -1,12 +1,5 @@
-####fit the model, here I took log2foldchnage>3
+####fit the model, here I took log2foldchnage>2
 ###get 
-store<-list()
-for(i in rownames(up_fold)){
-  print(i)
-  line<- getCurve(fitModel(i))  
-  store[[i]]<-line
-}
-
 #dat<-list()
 #pdf('lfittedplot.pdf')
 for (i in names(store)) {
@@ -17,11 +10,11 @@ for (i in names(store)) {
   p<-ggplot(data) + 
     geom_point(aes( x=time, y=log2(ncount)+1),data=subset( p, samplelabel=="dl-wt" ) ) +
     geom_line(aes( x=time, y=ncount), data=store[[i]] )+
-    scale_y_continuous(trans="log2")
+    scale_y_continuous(trans="log2")+ facet_wrap(~gene)
   p<- p+ xlab("Time[h]") + ylab("Log2(count)+1")
   p<-p+theme_bw()
   #p<-facet_wrap()
-  ggsave(paste('~/Desktop/Light-dark/fitt/',i , '.png', sep=''), p)
+ggsave(paste('~/Desktop/Light-dark/fitt/',i , '.png', sep=''),width=9, height=5,p)
   
 }
 #dev.off()
