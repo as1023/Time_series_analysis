@@ -21,7 +21,9 @@ getCurve <- function( fit ) {
   fittedline
 }
 ####extract fitted value for plot 
+###store line for plot
 store<-list()
+###store parameter 
 cof<-list()
 for(i in rownames(up_fold)){
   print(i)
@@ -33,6 +35,7 @@ for(i in rownames(up_fold)){
 ####get data frame for the html output
 up_fold <- up_fold[ order( -up_fold[,"log2FoldChange"] ), ]
 final<-cbind(as.data.frame(up_fold),t(as.data.frame(cof)))
+###annoatete the name 
 anno<-read.delim("Ncrassa.genes.FungiDB.txt",header=T,sep="\t")
 anno<-anno[,1:2]
 keep<-list()
