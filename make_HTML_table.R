@@ -1,21 +1,28 @@
 library( hwriter )
+
+########## here the output of html file name is open. images is the folder where all the png files are.
+page <- openPage( "open.html",
+                  head = paste( sep="\n",
+                                "<script>",
+                                "   function set_image( name ) {",
+                                "      document.getElementById( 'plot' ).setAttribute( 'src', 'images/' + name + '.png' );",
+                                "   }",
+                                "</script>" ) )
+cat(file=page,
+    '<table><tr><td style="vertical-align:top"><div style="height:500px; overflow-y:scroll">' )
+#####
+hwrite(ressig, border=NULL, page=page,
+       onmouseover = sprintf( "set_image( '%s' );", ressig$ens.id  ) )
+cat( file=page,
+     '</div></td><td style="vertical-align:top"><img id="plot" width="200px"></td></tr></table>' )
+closePage(page)
+browseURL( "open.html" )
+
+#########another way of writeing html file.
 #load( "final.rda" )
 final$log2FoldChange <- sprintf( "%.2f", final$log2FoldChange )
 plotfiles <- paste0( rownames(final), ".png" )
 plotfiles2<-paste0( rownames(final), ".jpeg" )
-
-
-"<script>",
-"   function set_image( name ) {",
-"      document.getElementById( 'plot' ).setAttribute( 'src', 'images/' + name + '.png' );",
-"   }",
-"</script>" ) )
-
-cat( file=page,
-'<table><tr><td style="vertical-align:top"><div style="height:500px; overflow-y:scroll">' )
-
-
-
 final$plot <-hwriteImage(plotfiles, height="70px", table=FALSE, link = plotfiles )
 final$plot2<-hwriteImage(plotfiles2, height="70px", table=FALSE, link = plotfiles2 )
 maintable <- hwrite( final, 
@@ -30,7 +37,9 @@ hwrite(maintable, page="table.html")
 
 
 
-#####ressig plot 
+
+
+########ressig plot 
 ressig$log2FoldChange <- sprintf( "%.2f", ressig$log2FoldChange )
 plotfiles <- paste0( rownames(ressig), ".png" )
 ressig$plot <-hwriteImage(plotfiles, height="70px", table=FALSE, link = plotfiles )
