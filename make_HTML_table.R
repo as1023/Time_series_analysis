@@ -3,6 +3,19 @@ library( hwriter )
 final$log2FoldChange <- sprintf( "%.2f", final$log2FoldChange )
 plotfiles <- paste0( rownames(final), ".png" )
 plotfiles2<-paste0( rownames(final), ".jpeg" )
+
+
+"<script>",
+"   function set_image( name ) {",
+"      document.getElementById( 'plot' ).setAttribute( 'src', 'images/' + name + '.png' );",
+"   }",
+"</script>" ) )
+
+cat( file=page,
+'<table><tr><td style="vertical-align:top"><div style="height:500px; overflow-y:scroll">' )
+
+
+
 final$plot <-hwriteImage(plotfiles, height="70px", table=FALSE, link = plotfiles )
 final$plot2<-hwriteImage(plotfiles2, height="70px", table=FALSE, link = plotfiles2 )
 maintable <- hwrite( final, 
@@ -12,6 +25,11 @@ maintable <- hwrite( final,
                      onmouseout="this.bgColor='white'", bgcolor='white')
 
 hwrite(maintable, page="table.html")
+
+
+
+
+
 #####ressig plot 
 ressig$log2FoldChange <- sprintf( "%.2f", ressig$log2FoldChange )
 plotfiles <- paste0( rownames(ressig), ".png" )
