@@ -1,7 +1,6 @@
 library( hwriter )
-
 ########## here the output of html file name is open. images is the folder where all the png files are.
-page <- openPage( "open.html",
+page <- openPage( "open_dark_10hr.html",
                   head = paste( sep="\n",
                                 "<script>",
                                 "   function set_image( name ) {",
@@ -9,16 +8,37 @@ page <- openPage( "open.html",
                                 "   }",
                                 "</script>" ) )
 cat(file=page,
-    '<table><tr><td style="vertical-align:top"><div style="height:500px; overflow-y:scroll">' )
+    '<table><tr><td style="vertical-align:top"><div style="height:800px; overflow-y:scroll">' )
 #####
 hwrite(ressig, border=NULL, page=page,
        onmouseover = sprintf( "set_image( '%s' );", ressig$ens.id  ) )
 cat( file=page,
-     '</div></td><td style="vertical-align:top"><img id="plot" width="200px"></td></tr></table>' )
+     '</div></td><td style="vertical-align:top"><img id="plot" width="800px"></td></tr></table>' )
 closePage(page)
-browseURL( "open.html" )
+browseURL( "open_10hr.html" )
 
-#########another way of writeing html file.
+
+
+
+######
+page <- openPage( "open_dark_10hr.html",
+                  head = paste( sep="\n",
+                                "<script>",
+                                "   function set_image( name ) {",
+                                "      document.getElementById( 'plot' ).setAttribute( 'src', 'images/' + name + '.png' );",
+                                "   }",
+                                "</script>" ) )
+cat(file=page,
+    '<table><tr><td style="vertical-align:top"><div style="height:800px; overflow-y:scroll">' )
+#####
+hwrite(ressig, border=NULL, page=page,
+       onmouseover = sprintf( "set_image( '%s' );", ressig$ens.id  ) )
+cat( file=page,
+     '</div></td><td style="vertical-align:top"><img id="plot" width="800px"></td></tr></table>' )
+closePage(page)
+browseURL( "open_10hr.html" )
+
+#########another way of writeing html file
 #load( "final.rda" )
 final$log2FoldChange <- sprintf( "%.2f", final$log2FoldChange )
 plotfiles <- paste0( rownames(final), ".png" )
@@ -32,11 +52,6 @@ maintable <- hwrite( final,
                      onmouseout="this.bgColor='white'", bgcolor='white')
 
 hwrite(maintable, page="table.html")
-
-
-
-
-
 
 
 ########ressig plot 
